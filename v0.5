@@ -1,0 +1,92 @@
+import pygame
+import random
+import math
+
+pygame.init()
+
+timer = pygame.time.Clock()
+
+BACKGROUND = (73,184,212)
+RED = (240,240,240)
+BLUE = (99,106,196) 
+
+HEIGHT =400
+WIDTH=400
+
+ekran = pygame.display.set_mode((WIDTH,HEIGHT))
+
+class Litera:
+  letter_prost =7
+  moveSin=1
+
+  def __init__(self,name,letter,size,xPos,yPos):
+    self.name = name
+    self.letter = letter
+    self.size = size
+    self.xPos = xPos
+    self.yPos = yPos
+    font = pygame.font.SysFont("bitstreamverasansmono",self.size)
+    self.letterR = font.render(letter, True,RED)
+    
+  def blitLetter(self):
+    ekran.blit(self.letterR,(self.xPos,self.yPos))
+  
+  def jump(self,moveSin):
+    if self.name =='A':
+      moveSin+=2
+    if self.name =='R':
+      moveSin+=4
+    if self.name =='C':
+      moveSin+=6
+    if self.name =='a':
+      moveSin+=8
+    if self.name =='U':
+      moveSin+=10
+    if self.name =='S':
+      moveSin+=12
+    
+    self.yPos = self.yPos + 8*(math.sin(moveSin/10))
+  
+SIZE = 54
+START_X=20
+START_Y=WIDTH/3
+
+vLetter = Litera("V","V",SIZE,START_X, START_Y)
+aLetter = Litera("A","A",SIZE,START_X+SIZE,START_Y)
+rLetter = Litera("R","R",SIZE,START_X+2*SIZE,START_Y)
+cLetter = Litera("C","C",SIZE,START_X+3*SIZE,START_Y)
+a2Letter = Litera("a","A",SIZE,START_X+4*SIZE,START_Y)
+uLetter = Litera("U","U",SIZE,START_X+5*SIZE,START_Y)
+sLetter = Litera("S","S",SIZE,START_X+6*SIZE,START_Y)
+
+moveSin=1
+
+while True:
+  ekran.fill(BACKGROUND)  
+  vLetter.blitLetter()
+  aLetter.blitLetter()
+  rLetter.blitLetter()
+  cLetter.blitLetter()
+  aLetter.blitLetter()
+  a2Letter.blitLetter()
+  uLetter.blitLetter()
+  sLetter.blitLetter()
+  vLetter.jump(moveSin)
+  aLetter.jump(moveSin)
+  rLetter.jump(moveSin)
+  cLetter.jump(moveSin)
+  a2Letter.jump(moveSin)
+  uLetter.jump(moveSin)
+  sLetter.jump(moveSin)
+  
+  moveSin +=1
+  
+  for event in pygame.event.get() : 
+    if event.type == pygame.QUIT : 
+      pygame.quit() 
+      
+  pygame.display.update() 
+  
+  timer.tick(30)
+
+pygame.quit()
