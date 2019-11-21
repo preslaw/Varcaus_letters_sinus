@@ -1,0 +1,70 @@
+import pygame
+import random
+import math
+
+pygame.init()
+
+timer = pygame.time.Clock()
+
+BACKGROUND = (73,184,212)
+RED = (240,240,240)
+BLUE = (99,106,196) 
+
+HEIGHT =400
+WIDTH=400
+
+ekran = pygame.display.set_mode((WIDTH,HEIGHT))
+
+class Litera:
+  letter_prost =7
+  moveSin=1
+
+  def __init__(self,letter,size,xPos,yPos,moveSin):
+    self.moveSin= moveSin
+    self.letter = letter
+    self.size = size
+    self.xPos = xPos
+    self.yPos = yPos
+    font = pygame.font.SysFont("bitstreamverasansmono",self.size)
+    self.letterR = font.render(letter, True,RED)
+    
+  def blitLetter(self):
+    ekran.blit(self.letterR,(self.xPos,self.yPos))
+  
+  def jump(self):
+    self.yPos = self.yPos + (math.sin(self.moveSin/10))
+    self.moveSin +=1
+  
+SIZE = 12
+START_X=60
+START_Y=WIDTH/3
+
+logoTxt = 'VARCAUS IS THE BEST GROUP IN THE WORLD.'
+logo = []
+
+moveSin = 1
+
+for a in logoTxt:
+  logo.append(Litera(a,SIZE,START_X,START_Y,moveSin))
+  START_X+=SIZE/1.5
+  moveSin +=2
+
+while True:
+  ekran.fill(BACKGROUND)  
+  
+  for a in logo:
+    a.blitLetter()
+    a.jump()
+
+  
+  for event in pygame.event.get() : 
+    if event.type == pygame.QUIT : 
+      pygame.quit() 
+  
+  moveSin +=1
+      
+  pygame.display.update() 
+  
+  timer.tick(30)
+
+pygame.quit()
